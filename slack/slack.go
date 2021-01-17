@@ -11,6 +11,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 )
 
 // Message ... message to post on slack
@@ -54,4 +55,17 @@ func (c *Client) SendMessage(message *Message) error {
 	}
 
 	return err
+}
+
+// GetWebhookURL .. read env variable and return GetWebhookURL
+func GetWebhookURL() string {
+	WebhookURL := os.Getenv("WEBHOOK_URL")
+	if WebhookURL == "" {
+		fmt.Printf("Could not read env WEBHOOK_URL")
+		os.Exit(-1)
+	}
+
+	fmt.Printf("Using Webhook URL:%s\n", WebhookURL)
+
+	return WebhookURL
 }
